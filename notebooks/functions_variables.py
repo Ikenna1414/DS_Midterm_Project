@@ -15,6 +15,46 @@ def encode_tags(df):
         
     return df
 
+from collections import Counter
+
+# def encode_tags(df, min_count=10):
+#     """
+#     One-hot encodes tags from each row, keeping only those that appear at least `min_count` times.
+
+#     Args:
+#         df (pd.DataFrame): The DataFrame with a 'tags' column (list of strings).
+#         min_count (int): Minimum frequency a tag must have to be encoded.
+
+#     Returns:
+#         pd.DataFrame: The original DataFrame with new binary columns for common tags.
+#     """
+#     # Count frequency of each tag
+#     tag_counter = Counter(tag for tags in df["tags"].dropna() for tag in tags)
+
+#     # Keep only common tags
+#     common_tags = {tag for tag, count in tag_counter.items() if count >= min_count}
+
+#     # Add a new binary column for each common tag
+#     for tag in common_tags:
+#         df[f"tag_{tag}"] = df["tags"].apply(lambda x: int(tag in x) if isinstance(x, list) else 0)
+
+#     return df
+
+from collections import Counter
+
+def get_tag_counts(df):
+    """
+    Flattens all tags and returns a Counter of tag frequencies.
+
+    Args:
+        df (pd.DataFrame): The DataFrame with a 'tags' column.
+
+    Returns:
+        collections.Counter: A frequency count of all tags in the dataset.
+    """
+    return Counter(tag for tags in df["tags"].dropna() for tag in tags)
+
+
 def drop_all_null_columns(df):
     """
     Drops columns from the DataFrame where all values are null.
@@ -41,3 +81,25 @@ def fill_missing_with_mean(df, columns):
     """
     df[columns] = df[columns].apply(lambda col: col.fillna(col.mean()))
     return df
+
+
+
+def drop_columns(df, columns):
+    """
+    Drops specified columns from the DataFrame (only if they exist).
+
+    Args:
+        df (pd.DataFrame): Your data.
+        columns (list): A list of column names to drop.
+
+    Returns:
+        pd.DataFrame: The DataFrame without the specified columns.
+    """
+    # Create a new list with only the columns that exist in the DataFrame
+    existing_columns = []
+    for col in columns:
+        if col in df.columns:
+            existing_columns.append(col)
+
+    # Drop only the columns that exist
+    return df.drop(columns=existing_columns)
