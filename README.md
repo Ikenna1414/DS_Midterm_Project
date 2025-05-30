@@ -52,7 +52,11 @@ Evaluation: Compare model performance using key regression metrics.
 
 
 ## Results
-(fill in how your model performed)
+After testing multiple machine learning models, we identified XGBoost as the most performant model, based on evaluation metrics such as RMSE, MAE, and R². To prepare the model for deployment or future predictions, we created a pipeline that combines preprocessing and the tuned XGBoost regressor into a single, reusable object.
+
+Results indicated that the model explains approximately 96% of the variance in the target variable, with an average absolute error of around $20,250, which is quite good for real estate price predictions.
+
+
 
 ## Challenges 
  - Handling Missing Values: Some data columns had a lot of missing values, so we filled them in or removed them.
@@ -62,7 +66,9 @@ Evaluation: Compare model performance using key regression metrics.
 - Outliers: We removed extreme price values that could confuse the model.
 
 ## Future Goals
-(what would you do if you had more time?)
+Explore blending or stacking models (e.g., combining XGBoost with Random Forest or Ridge regression) for potentially better performance.
+Build a simple web interface where users can input property details and get a price prediction.
+Package the pipeline into an API using Flask or FastAPI for integration with other systems.
 
 
 
